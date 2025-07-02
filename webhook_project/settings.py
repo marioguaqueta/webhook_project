@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "webhooks",  # Asegúrate de que tu aplicación 'webhooks' esté incluida aquí
 ]
 
 MIDDLEWARE = [

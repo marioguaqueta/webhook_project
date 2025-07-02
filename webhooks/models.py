@@ -1,3 +1,4 @@
+from django.db import models
 
 class IncomingWebhook(models.Model):
     received_at = models.DateTimeField(auto_now_add=True)
