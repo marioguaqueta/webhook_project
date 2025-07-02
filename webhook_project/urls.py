@@ -4,7 +4,7 @@ from webhooks.views import receive_webhook, article_webhook, client_webhook, rec
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('webhook/inventory', receive_webhook),  
+    path('webhook/inventory/', receive_webhook),  
     path('webhook/article/', article_webhook),
     path('webhook/client/', client_webhook),
     path('webhook/receipt/', receipt_webhook),
