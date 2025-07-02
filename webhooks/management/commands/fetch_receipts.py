@@ -4,17 +4,12 @@ import requests
 from datetime import datetime, timedelta, timezone
 
 class Command(BaseCommand):
-    help = "Fetch receipts from Loyverse API and save them individually as IncomingWebhook objects"
+    help = "Fetch recent receipts (last 5 minutes) from Loyverse API and save them individually as IncomingWebhook objects"
 
     def handle(self, *args, **kwargs):
         now = datetime.now(timezone.utc)
-        end_time = now.replace(minute=0, second=0, microsecond=0)
-        start_time = end_time - timedelta(hours=1)
-
-        # Evita fechas futuras
-        if now < end_time:
-            end_time = now
-            start_time = end_time - timedelta(hours=1)
+        start_time = now - timedelta(minutes=5)
+        end_time = now
 
         created_at_min = start_time.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
         created_at_max = end_time.isoformat(timespec='milliseconds').replace('+00:00', 'Z')
@@ -31,10 +26,10 @@ class Command(BaseCommand):
 
             receipts = data.get("receipts", [])
             if not receipts:
-                self.stdout.write(self.style.WARNING("⚠ No receipts found in this time window."))
+                self.stdout.write(self.style.WARNING("⚠ No receipts found in this 5-minute window."))
 
             for receipt in receipts:
-                IncomingWebhook.objects.create(payload=receipt, type_request="api_receipt")
+                IncomingWebhook.objects.create(payload=receipt, type="api_receipt")
 
             self.stdout.write(self.style.SUCCESS(f"✔ {len(receipts)} receipts saved from {start_time} to {end_time}"))
 
