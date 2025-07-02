@@ -85,7 +85,11 @@ WSGI_APPLICATION = "webhook_project.wsgi.application"
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default='postgresql://webhooks_h12e_user:ykdGC9iONl0JD0oGrIOgioy5YBpcKHv5@dpg-d1ic496r433s73abm8v0-a.oregon-postgres.render.com/webhooks_h12e',
+        conn_max_age=600,
+        ssl_require=True  # importante para Render
+    )
 }
 
 
