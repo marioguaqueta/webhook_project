@@ -1,0 +1,1 @@
+echo "web: gunicorn webhook_project.wsgi" > Procfile
